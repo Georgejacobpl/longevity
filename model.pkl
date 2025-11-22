@@ -1,0 +1,28 @@
+# Run this once to create model.pkl
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+import pandas as pd
+
+# Sample training data (replace with your actual data)
+data = {
+    'title': [
+        "Amazing supplement love it",
+        "Terrible product waste of money", 
+        "Okay not great not bad",
+        "Best pre-workout ever",
+        "Doesn't work at all",
+        "Good value for price"
+    ],
+    'sentiment': ['positive', 'negative', 'neutral', 'positive', 'negative', 'positive']
+}
+
+df = pd.DataFrame(data)
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(df['title'])
+model = LogisticRegression()
+model.fit(X, df['sentiment'])
+
+# Save model
+with open('model.pkl', 'wb') as f:
+    pickle.dump((model, vectorizer), f)
